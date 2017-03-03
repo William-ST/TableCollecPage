@@ -9,10 +9,14 @@
 import UIKit
 
 class DataViewController: UIViewController {
+    
+    @IBOutlet weak var imagen: UIImageView!
 
-    @IBOutlet weak var dataLabel: UILabel!
-    var dataObject: String = ""
+    @IBOutlet weak var nombre: UILabel!
+    
+    var dataObject: Item!
 
+    @IBOutlet weak var precio: UILabel!
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -26,7 +30,9 @@ class DataViewController: UIViewController {
 
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        self.dataLabel!.text = dataObject
+        self.imagen!.image = dataObject.imagen
+        self.nombre!.text = dataObject.nombre
+        self.precio!.text = "S/ \(dataObject.precio!)"
     }
 
 

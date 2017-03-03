@@ -20,32 +20,41 @@ import UIKit
 
 class ModelController: NSObject, UIPageViewControllerDataSource {
 
-    var pageData: [String] = []
-
+    //var pageData: [String] = []
+    var items:[Item] = []
 
     override init() {
         super.init()
         // Create the data model.
-        let dateFormatter = DateFormatter()
-        pageData = dateFormatter.monthSymbols
+        //let dateFormatter = DateFormatter()
+        //pageData = dateFormatter.monthSymbols
+        
+        for i in 0...7 {
+            let elemento = Item()
+            elemento.nombre = "Item \(i)"
+            elemento.precio = 10.00 * Double(i)
+            elemento.imagen = UIImage(named: "image_\(i)")
+            items.append(elemento)
+        }
+        
     }
 
     func viewControllerAtIndex(_ index: Int, storyboard: UIStoryboard) -> DataViewController? {
         // Return the data view controller for the given index.
-        if (self.pageData.count == 0) || (index >= self.pageData.count) {
+        if (self.items.count == 0) || (index >= self.items.count) {
             return nil
         }
 
         // Create a new view controller and pass suitable data.
         let dataViewController = storyboard.instantiateViewController(withIdentifier: "DataViewController") as! DataViewController
-        dataViewController.dataObject = self.pageData[index]
+        dataViewController.dataObject = self.items[index]
         return dataViewController
     }
 
     func indexOfViewController(_ viewController: DataViewController) -> Int {
         // Return the index of the given data view controller.
         // For simplicity, this implementation uses a static array of model objects and the view controller stores the model object; you can therefore use the model object to identify the index.
-        return pageData.index(of: viewController.dataObject) ?? NSNotFound
+        return items.index(of: viewController.dataObject) ?? NSNotFound
     }
 
     // MARK: - Page View Controller Data Source
@@ -67,7 +76,7 @@ class ModelController: NSObject, UIPageViewControllerDataSource {
         }
         
         index += 1
-        if index == self.pageData.count {
+        if index == self.items.count {
             return nil
         }
         return self.viewControllerAtIndex(index, storyboard: viewController.storyboard!)
